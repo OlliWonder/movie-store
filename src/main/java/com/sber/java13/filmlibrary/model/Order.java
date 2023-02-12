@@ -1,7 +1,5 @@
 package com.sber.java13.filmlibrary.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +13,6 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @SequenceGenerator(name = "default_generator", sequenceName = "order_seq", allocationSize = 1)
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class Order extends GenericModel {
     
     @ManyToOne

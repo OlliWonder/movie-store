@@ -1,7 +1,5 @@
 package com.sber.java13.filmlibrary.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +14,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @SequenceGenerator(name = "default_generator", sequenceName = "user_seq", allocationSize = 1)
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class User extends GenericModel {
     
     @Column(name = "login", nullable = false)
