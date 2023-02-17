@@ -36,7 +36,6 @@ public class DirectorController extends GenericController<Director, DirectorDTO>
         DirectorDTO directorDTO = directorService.getOne(directorId);
         FilmDTO filmDTO = filmService.getOne(filmId);
         directorDTO.getFilmsIds().add(filmDTO.getId());
-        filmDTO.getDirectorsIds().add(directorDTO.getId());
         return ResponseEntity.status(HttpStatus.OK).body(directorService.update(directorDTO));
     }
 }

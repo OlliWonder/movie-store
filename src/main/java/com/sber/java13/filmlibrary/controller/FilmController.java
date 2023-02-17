@@ -36,7 +36,6 @@ public class FilmController extends GenericController<Film, FilmDTO> {
         FilmDTO filmDTO = filmService.getOne(filmId);
         DirectorDTO directorDTO = directorService.getOne(directorId);
         filmDTO.getDirectorsIds().add(directorDTO.getId());
-        directorDTO.getFilmsIds().add(filmDTO.getId());
         return ResponseEntity.status(HttpStatus.OK).body(filmService.update(filmDTO));
     }
 }

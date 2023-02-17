@@ -33,10 +33,9 @@ public class OrderController extends GenericController<Order, OrderDTO> {
     @Operation(description = "Взять фильм в аренду", method = "create")
     @RequestMapping(value = "/addOrder", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OrderDTO> create(@RequestBody OrderDTO newEntity, @RequestParam(value = "filmId") Long filmId,
-                                           @RequestParam(value = "userId") Long userId) {
-        FilmDTO filmDTO = filmService.getOne(filmId);
-        UserDTO userDTO = userService.getOne(userId);
+    public ResponseEntity<OrderDTO> create(@RequestBody OrderDTO newEntity) {
+        FilmDTO filmDTO = filmService.getOne(newEntity.getFilmId());
+        UserDTO userDTO = userService.getOne(newEntity.getUserId());
         filmDTO.getOrdersIds().add(newEntity.getId());
         userDTO.getOrdersIds().add(newEntity.getId());
         
