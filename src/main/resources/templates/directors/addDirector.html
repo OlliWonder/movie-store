@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить режиссёра</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h3 class="mt-3 mb-3">Добавить режиссёра</h3>
+    <form style="max-width: 50vw" method="POST" th:action="@{/directors/add}" th:object="${directorForm}">
+        <div class="mb-3">
+            <label for="directorsFio" class="form-label">ФИО</label>
+            <input name="directorsFio" type="text" class="form-control" id="directorsFio">
+        </div>
+        <div class="mb-3">
+            <label for="directorsPosition" class="form-label">Должность</label>
+            <input name="directorsPosition" type="text" class="form-control" id="directorsPosition">
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
+    </form>
+</div>
+</body>
+</html>

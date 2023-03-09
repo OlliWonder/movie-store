@@ -28,12 +28,12 @@ public class Film extends GenericModel {
     @Enumerated
     private Genre genre;
     
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "films_directors",
     joinColumns = @JoinColumn(name = "film_id"), foreignKey = @ForeignKey(name = "FK_FILMS_DIRECTORS"),
     inverseJoinColumns = @JoinColumn(name = "director_id"), inverseForeignKey = @ForeignKey(name = "FK_DIRECTORS_FILMS"))
     private Set<Director> directors;
     
-    @OneToMany(mappedBy = "film")
+    @OneToMany(mappedBy = "film", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Order> orders;
 }

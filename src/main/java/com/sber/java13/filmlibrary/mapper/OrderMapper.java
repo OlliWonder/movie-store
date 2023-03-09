@@ -9,6 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.webjars.NotFoundException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class OrderMapper extends GenericMapper<Order, OrderDTO> {
     
@@ -28,6 +31,8 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
         modelMapper.createTypeMap(Order.class, OrderDTO.class)
                 .addMappings(m -> m.skip(OrderDTO::setUserId)).setPostConverter(toDtoConverter())
                 .addMappings(m -> m.skip(OrderDTO::setFilmId)).setPostConverter(toDtoConverter());
+        modelMapper.createTypeMap(OrderDTO.class, Order.class)
+                .addMappings(m -> m.skip(Order::setRentDate)).setPostConverter(toEntityConverter());
     }
     
     @Override
@@ -36,6 +41,9 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
                 .orElseThrow(() -> new NotFoundException("Фильм не найден")));
         destination.setUser(userRepository.findById(source.getUserId())
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден")));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(source.getRentDate(), formatter);
+        destination.setRentDate(date);
     }
     
     @Override

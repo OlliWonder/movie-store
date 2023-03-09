@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Режиссёры фильмотеки</title>
+    <style>
+        .director-link {
+            text-decoration: none;
+        }
+
+        .director-link:hover {
+            color: #001445;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Все режиссёры фильмотеки</h1>
+    <div class="row">
+        <div class="col">
+            <a href="directors/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: right"
+               aria-disabled="true">Добавить режиссёра</a>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ФИО</th>
+            <th scope="col">Должность</th>
+            <th scope="col">Фильмы</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="director : ${directors}">
+            <td>
+                <a class="director-link" th:href="'/directors/' + ${director.getId()}"
+                   th:text="${director.getDirectorsFio()}">ФИО</a>
+            </td>
+            <td th:text="${director.getDirectorsPosition()}"></td>
+            <td>
+                <ul>
+                    <li th:each="film : ${director.getFilms()}" th:text="${film.getFilmTitle()}"></li>
+                </ul>
+            </td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

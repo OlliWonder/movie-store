@@ -58,12 +58,14 @@ public class FilmMapper extends GenericMapper<Film, FilmDTO> {
     @Override
     protected void mapSpecificFields(Film source, FilmDTO destination) {
         destination.setDirectorsIds(Objects.isNull(source) || Objects.isNull(source.getDirectors()) ? null
-                : source.getDirectors().stream()
-                    .map(GenericModel::getId)
-                    .collect(Collectors.toSet()));
+                : source.getDirectors()
+                .stream()
+                .map(GenericModel::getId)
+                .collect(Collectors.toSet()));
         destination.setOrdersIds(Objects.isNull(source) || Objects.isNull(source.getOrders()) ? null
-                : source.getOrders().stream()
-                    .map(GenericModel::getId)
-                    .collect(Collectors.toSet()));
+                : source.getOrders()
+                .stream()
+                .map(GenericModel::getId)
+                .collect(Collectors.toSet()));
     }
 }

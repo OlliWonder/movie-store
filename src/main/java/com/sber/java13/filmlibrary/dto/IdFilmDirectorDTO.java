@@ -9,12 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDTO extends GenericDTO {
-    private UserDTO user;
-    private FilmDTO film;
-    private String rentDate;
-    private Integer rentPeriod;
-    private Boolean isPurchased;
+public class IdFilmDirectorDTO {
     private Long filmId;
-    private Long userId;
+    private Long directorId;
 }

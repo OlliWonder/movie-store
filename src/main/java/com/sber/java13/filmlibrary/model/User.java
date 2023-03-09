@@ -46,11 +46,11 @@ public class User extends GenericModel {
     @Column(name = "created_when")
     private LocalDate createdWhen;
     
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "role_id", nullable = false,
     foreignKey = @ForeignKey(name = "FK_USERS_ROLE"))
     private Role role;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Order> orders;
 }

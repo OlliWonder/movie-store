@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Фильмы фильмотеки</title>
+    <style>
+        .film-link {
+            text-decoration: none;
+        }
+
+        .film-link:hover {
+            color: #001445;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Все фильмы фильмотеки</h1>
+    <div class="row">
+        <div class="col">
+            <a href="films/add"
+               class="btn btn-secondary"
+               role="button"
+               style="float: right"
+               aria-disabled="true">Добавить фильм</a>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Год выхода</th>
+            <th scope="col">Страна</th>
+            <th scope="col">Жанр</th>
+            <th scope="col">Режиссёры</th>
+            <th scope="col">Добавить режиссёра</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="film : ${films}">
+            <td>
+                <a class="film-link" th:href="'/films/' + ${film.getId()}"
+                   th:text="${film.getFilmTitle()}">Название книги</a>
+            </td>
+            <td th:text="${film.getPremierYear()}"></td>
+            <td th:text="${film.getCountry}"></td>
+            <td th:text="${film.getGenre().getGenreTextDisplay()}"></td>
+            <td>
+                <ul>
+                    <li th:each="director : ${film.getDirectors()}" th:text="${director.getDirectorsFio()}"></li>
+                </ul>
+            </td>
+            <td>
+                <a th:href="'/films/addDirector/'+ ${film.getId()}"
+                   class="btn btn-primary" role="button"
+                   aria-disabled="true">Добавить режиссёра</a>
+            </td>
+
+<!--            <div class="input-group">-->
+<!--                <select class="form-select" id="inputGroupSelect04" aria-label="Пример элемента выбора с помощью надстройки кнопки">-->
+<!--                    <option selected>Выберите...</option>-->
+<!--                    <option value="1">Один</option>-->
+<!--                    <option value="2">Два</option>-->
+<!--                    <option value="3">Три</option>-->
+<!--                </select>-->
+<!--                <button class="btn btn-outline-secondary" type="button">Кнопка</button>-->
+<!--            </div>-->
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

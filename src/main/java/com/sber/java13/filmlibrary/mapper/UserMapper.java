@@ -8,6 +8,8 @@ import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -30,7 +32,9 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
         modelMapper.createTypeMap(User.class, UserDTO.class)
                 .addMappings(m -> m.skip(UserDTO::setOrdersIds)).setPostConverter(toDtoConverter());
         modelMapper.createTypeMap(UserDTO.class, User.class)
-                .addMappings(m -> m.skip(User::setOrders)).setPostConverter(toEntityConverter());
+                .addMappings(m -> m.skip(User::setOrders)).setPostConverter(toEntityConverter())
+                .addMappings(m -> m.skip(User::setBirthDate)).setPostConverter(toEntityConverter())
+                .addMappings(m -> m.skip(User::setCreatedWhen)).setPostConverter(toEntityConverter());
     }
     
     @Override
@@ -41,12 +45,17 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
         else {
             destination.setOrders(Collections.emptySet());
         }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(source.getBirthDate(), formatter);
+        destination.setBirthDate(date);
+        destination.setCreatedWhen(LocalDate.now());
     }
     
     @Override
     protected void mapSpecificFields(User source, UserDTO destination) {
         destination.setOrdersIds(Objects.isNull(source) || Objects.isNull(source.getOrders()) ? null
-                : source.getOrders().stream()
+                : source.getOrders()
+                .stream()
                 .map(GenericModel::getId)
                 .collect(Collectors.toSet()));
     }
