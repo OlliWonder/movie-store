@@ -43,13 +43,15 @@ public class MVCFilmController {
     }
     
     @GetMapping("/addDirector/{id}")
-    public String addDirector(@PathVariable Long id, Model model){
+    public String addDirector(@PathVariable Long id, Model model) {
+        List<DirectorDTO> options = directorService.listAll();
+        model.addAttribute("options", options);
         model.addAttribute("film", filmService.getOne(id));
         return "films/addDirectorToFilm";
     }
     
     @PostMapping("/addDirector")
-    public String addDirector(@ModelAttribute("idFilmDirectorDTO") @Valid IdFilmDirectorDTO idFilmDirectorDTO){
+    public String addDirector(@ModelAttribute("idFilmDirectorDTO") @Valid IdFilmDirectorDTO idFilmDirectorDTO) {
         Long filmId = idFilmDirectorDTO.getFilmId();
         Long directorId = idFilmDirectorDTO.getDirectorId();
         FilmDTO filmDTO = filmService.getOne(filmId);
@@ -58,5 +60,4 @@ public class MVCFilmController {
         filmService.update(filmDTO);
         return "redirect:/films";
     }
-    
 }
