@@ -56,8 +56,10 @@ public class MVCFilmController {
         Long directorId = idFilmDirectorDTO.getDirectorId();
         FilmDTO filmDTO = filmService.getOne(filmId);
         DirectorDTO directorDTO = directorService.getOne(directorId);
-        filmDTO.getDirectorsIds().add(directorDTO.getId());
-        filmService.update(filmDTO);
+        if (!filmDTO.getDirectorsIds().contains(directorId)) {
+            filmDTO.getDirectorsIds().add(directorDTO.getId());
+            filmService.update(filmDTO);
+        }
         return "redirect:/films";
     }
 }

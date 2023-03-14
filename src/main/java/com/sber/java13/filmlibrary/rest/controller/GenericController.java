@@ -1,4 +1,4 @@
-package com.sber.java13.filmlibrary.controller;
+package com.sber.java13.filmlibrary.rest.controller;
 
 import com.sber.java13.filmlibrary.dto.GenericDTO;
 import com.sber.java13.filmlibrary.model.GenericModel;
