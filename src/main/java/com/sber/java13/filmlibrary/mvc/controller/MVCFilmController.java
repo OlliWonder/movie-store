@@ -6,6 +6,7 @@ import com.sber.java13.filmlibrary.dto.FilmWithDirectorsDTO;
 import com.sber.java13.filmlibrary.dto.IdFilmDirectorDTO;
 import com.sber.java13.filmlibrary.service.DirectorService;
 import com.sber.java13.filmlibrary.service.FilmService;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@Hidden
 @RequestMapping("films")
 public class MVCFilmController {
     private final FilmService filmService;

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
@@ -19,7 +20,7 @@
 <div layout:fragment="content">
     <h1>Все режиссёры фильмотеки</h1>
     <div class="row">
-        <div class="col">
+        <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))" class="col">
             <a href="directors/add"
                class="btn btn-secondary"
                role="button"

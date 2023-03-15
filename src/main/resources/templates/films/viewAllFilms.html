@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
@@ -19,7 +20,7 @@
 <div layout:fragment="content">
     <h1>Все фильмы фильмотеки</h1>
     <div class="row">
-        <div class="col">
+        <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))" class="col">
             <a href="films/add"
                class="btn btn-secondary"
                role="button"
@@ -35,7 +36,7 @@
             <th scope="col">Страна</th>
             <th scope="col">Жанр</th>
             <th scope="col">Режиссёры</th>
-            <th scope="col">Добавить режиссёра</th>
+            <th sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))" scope="col">Добавить режиссёра</th>
         </tr>
         </thead>
         <tbody>
@@ -53,20 +54,10 @@
                 </ul>
             </td>
             <td>
-                <a th:href="'/films/addDirector/'+ ${film.getId()}"
+                <a sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))" th:href="'/films/addDirector/'+ ${film.getId()}"
                    class="btn btn-primary" role="button"
                    aria-disabled="true">Добавить режиссёра</a>
             </td>
-
-<!--            <div class="input-group">-->
-<!--                <select class="form-select" id="inputGroupSelect04" aria-label="Пример элемента выбора с помощью надстройки кнопки">-->
-<!--                    <option selected>Выберите...</option>-->
-<!--                    <option value="1">Один</option>-->
-<!--                    <option value="2">Два</option>-->
-<!--                    <option value="3">Три</option>-->
-<!--                </select>-->
-<!--                <button class="btn btn-outline-secondary" type="button">Кнопка</button>-->
-<!--            </div>-->
         </tr>
         </tbody>
     </table>

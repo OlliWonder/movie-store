@@ -4,12 +4,12 @@ import com.sber.java13.filmlibrary.dto.UserDTO;
 import com.sber.java13.filmlibrary.model.GenericModel;
 import com.sber.java13.filmlibrary.model.User;
 import com.sber.java13.filmlibrary.repository.OrderRepository;
+import com.sber.java13.filmlibrary.utils.DateFormatter;
 import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -45,9 +45,7 @@ public class UserMapper extends GenericMapper<User, UserDTO> {
         else {
             destination.setOrders(Collections.emptySet());
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(source.getBirthDate(), formatter);
-        destination.setBirthDate(date);
+        destination.setBirthDate(DateFormatter.formatStringToDate(source.getBirthDate()));
         destination.setCreatedWhen(LocalDate.now());
     }
     

@@ -3,6 +3,7 @@ package com.sber.java13.filmlibrary.mvc.controller;
 import com.sber.java13.filmlibrary.dto.DirectorDTO;
 import com.sber.java13.filmlibrary.dto.DirectorWithFilmsDTO;
 import com.sber.java13.filmlibrary.service.DirectorService;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
+@Hidden
 @RequestMapping("directors")
 public class MVCDirectorController {
     private final DirectorService directorService;

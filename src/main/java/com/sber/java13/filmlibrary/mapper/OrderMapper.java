@@ -4,13 +4,11 @@ import com.sber.java13.filmlibrary.dto.OrderDTO;
 import com.sber.java13.filmlibrary.model.Order;
 import com.sber.java13.filmlibrary.repository.FilmRepository;
 import com.sber.java13.filmlibrary.repository.UserRepository;
+import com.sber.java13.filmlibrary.utils.DateFormatter;
 import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.webjars.NotFoundException;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Component
 public class OrderMapper extends GenericMapper<Order, OrderDTO> {
@@ -41,9 +39,7 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
                 .orElseThrow(() -> new NotFoundException("Фильм не найден")));
         destination.setUser(userRepository.findById(source.getUserId())
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден")));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(source.getRentDate(), formatter);
-        destination.setRentDate(date);
+        destination.setRentDate(DateFormatter.formatStringToDate(source.getRentDate()));
     }
     
     @Override
