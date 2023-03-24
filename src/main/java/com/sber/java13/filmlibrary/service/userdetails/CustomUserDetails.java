@@ -1,6 +1,5 @@
 package com.sber.java13.filmlibrary.service.userdetails;
 
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -65,5 +64,13 @@ public class CustomUserDetails implements UserDetails {
     
     public Integer getUserId() {
         return id;
+    }
+    
+    @Override
+    public String toString() {
+        return "{\"user_id\":\"" + id + "\"," +
+                "\"username\":\"" + username + "\"," +
+                "\"user_role\":\"" + authorities + "\"," +
+                "\"user_password\":\"" + password + "\"}";
     }
 }

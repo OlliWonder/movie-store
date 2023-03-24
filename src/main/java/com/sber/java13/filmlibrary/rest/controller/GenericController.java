@@ -1,6 +1,7 @@
 package com.sber.java13.filmlibrary.rest.controller;
 
 import com.sber.java13.filmlibrary.dto.GenericDTO;
+import com.sber.java13.filmlibrary.exception.MyDeleteException;
 import com.sber.java13.filmlibrary.model.GenericModel;
 import com.sber.java13.filmlibrary.service.GenericService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,7 +53,7 @@ public abstract class GenericController<T extends GenericModel, N extends Generi
  
     @Operation(description = "Удалить запись по ID", method = "delete")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable(value = "id") Long id) {
+    public void delete(@PathVariable(value = "id") Long id) throws MyDeleteException {
         service.delete(id);
     }
 }

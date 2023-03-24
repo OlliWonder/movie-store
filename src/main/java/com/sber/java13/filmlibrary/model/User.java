@@ -54,4 +54,7 @@ public class User extends GenericModel {
     
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Order> orders;
+    
+    @Column(name = "change_password_token")
+    private String changePasswordToken;
 }

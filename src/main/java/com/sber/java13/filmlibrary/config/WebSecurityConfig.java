@@ -15,8 +15,8 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.Arrays;
-import java.util.List;
 
+import static com.sber.java13.filmlibrary.constants.SecurityConstants.*;
 import static com.sber.java13.filmlibrary.constants.UserRoleConstants.ADMIN;
 import static com.sber.java13.filmlibrary.constants.UserRoleConstants.LIBRARIAN;
 
@@ -26,12 +26,6 @@ public class WebSecurityConfig {
     
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final CustomUserDetailsService customUserDetailsService;
-    private final List<String> RESOURCES_WHITE_LIST = List.of("/resources/**", "/js/**", "/css/**", "/swagger-ui/**", "/");
-    private final List<String> FILMS_WHITE_LIST = List.of("/films");
-    private final List<String> FILMS_PERMISSION_LIST = List.of("/films/add", "/films/update", "/films/delete");
-    private final List<String> DIRECTORS_WHITE_LIST = List.of("/directors");
-    private final List<String> DIRECTORS_PERMISSION_LIST = List.of("/directors/add", "/directors/update", "/directors/delete");
-    private final List<String> USERS_WHITE_LIST = List.of("/login", "/users/registration", "/users/remember-password", "/users/change-password");
     
     public WebSecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder, CustomUserDetailsService customUserDetailsService) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;

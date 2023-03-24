@@ -1,6 +1,7 @@
 package com.sber.java13.filmlibrary.service;
 
 import com.sber.java13.filmlibrary.dto.GenericDTO;
+import com.sber.java13.filmlibrary.exception.MyDeleteException;
 import com.sber.java13.filmlibrary.mapper.GenericMapper;
 import com.sber.java13.filmlibrary.model.GenericModel;
 import com.sber.java13.filmlibrary.repository.GenericRepository;
@@ -37,7 +38,7 @@ public abstract class GenericService <T extends GenericModel, N extends GenericD
         return mapper.toDTO(repository.save(mapper.toEntity(object)));
     }
     
-    public void delete(Long id) {
+    public void delete(Long id) throws MyDeleteException {
         repository.deleteById(id);
     }
 }

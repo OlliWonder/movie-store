@@ -37,14 +37,14 @@
     </style>
 </head>
 <body>
+<header th:replace="~{fragments/header :: header}"></header>
 <main class="content-wrapper">
-    <div th:replace="~{header :: header}"></div>
-    <div class="container">
+    <div class="container mt-5 pt-4" style="margin-bottom: 70px">
         <div layout:fragment="content">
-            <h1>Статический контент тут</h1>
+            <h1>Static content for prototyping purposes only</h1>
         </div>
     </div>
-    <!--  <div class="footer"></div>-->
 </main>
+<footer th:insert="~{fragments/footer :: footer}" class="footer"></footer>
 </body>
 </html>

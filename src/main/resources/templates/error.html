@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Ошибка</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 class="mt-3">Что-то пошло не так! </h1>
+    <h2 class="mt-1">Мы уже устраняем ошибку.</h2>
+    <p th:if="${message != null}" th:text="${message}"></p>
+    <a href="/">На главную</a>
+</div>
+</body>
+</html>
