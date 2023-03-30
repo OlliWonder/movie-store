@@ -6,6 +6,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Фильмы фильмотеки</title>
+    <script th:inline="javascript">
+        let flag = [[${exception}]];//переменная-флаг в thymeleaf
+        window.onload = () => {
+            if (flag) new bootstrap.Modal(document.getElementById('deleteErrorModal'), {keyboard: false}).show()
+        };
+    </script>
     <style>
         .film-link {
             text-decoration: none;
@@ -98,17 +104,34 @@
                     <td>
                         <div sec:authorize="isAuthenticated() && (hasRole('ADMIN') || hasRole('LIBRARIAN'))">
                             <a class="btn btn-sm btn-outline-success" th:href="'/films/update/' + ${film.id}">Обновить</a>
-                            <a class="btn btn-sm btn-outline-danger" th:href="'/films/delete/' + ${film.id}"
+                            <a th:if="${!film.isDeleted()}" class="btn btn-sm btn-outline-danger" th:href="'/films/delete/' + ${film.id}"
                                onclick="return confirm('Вы действительно хотите удалить фильм?')">Удалить</a>
+                            <a th:if="${film.isDeleted()}" class="btn btn-sm btm-outline-warning" th:href="'/films/restore/' + ${film.getId()}">Восстановить</a>
                         </div>
-                        <a sec:authorize="isAuthenticated() && hasRole('USER')" class="btn btn-sm btn-outline-success"
-                           th:href="'/rentFilm/' + ${film.id}">Арендовать фильм</a>
-                        <a sec:authorize="isAuthenticated() && hasRole('USER')" class="btn btn-sm btn-outline-success"
-                           th:href="'/buyFilm/' + ${film.id}">Купить фильм</a>
+                        <a sec:authorize="hasRole('USER')" class="btn btn-sm btn-outline-success"
+                           th:href="'/rent/film/' + ${film.id}">Арендовать фильм</a>
+                        <a sec:authorize="hasRole('USER')" class="btn btn-sm btn-outline-success"
+                           th:href="'/buy/film/' + ${film.id}">Купить фильм</a>
+<!--                        TODO: реализовать покупку фильма!-->
                     </td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div th:if="${exception != null && exception != ''}" class="modal fade" id="deleteErrorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ошибка</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" th:text="${exception}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div>
             <nav aria-label="Pagination" th:if="${films.totalPages gt 0}">

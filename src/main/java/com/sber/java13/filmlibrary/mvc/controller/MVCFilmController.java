@@ -5,16 +5,22 @@ import com.sber.java13.filmlibrary.exception.MyDeleteException;
 import com.sber.java13.filmlibrary.service.DirectorService;
 import com.sber.java13.filmlibrary.service.FilmService;
 import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
+
+import static com.sber.java13.filmlibrary.constants.UserRoleConstants.ADMIN;
 
 @Controller
 @Hidden
@@ -32,10 +38,18 @@ public class MVCFilmController {
     @GetMapping("")
     public String getAll(@RequestParam(value = "page", defaultValue = "1") int page,
                          @RequestParam(value = "size", defaultValue = "5") int pageSize,
+                         @ModelAttribute(name = "exception") final String exception,
                          Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "filmTitle"));
-        Page<FilmWithDirectorsDTO> result = filmService.getAllFilmsWithDirectors(pageRequest);
+        Page<FilmWithDirectorsDTO> result;
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (ADMIN.equalsIgnoreCase(userName)) {
+            result = filmService.getAllFilmsWithDirectors(pageRequest);
+        } else {
+            result = filmService.getAllNotDeletedFilmsWithDirectors(pageRequest);
+        }
         model.addAttribute("films", result);
+        model.addAttribute("exception", exception);
         return "films/viewAllFilms";
     }
     
@@ -70,26 +84,24 @@ public class MVCFilmController {
         return "redirect:/films";
     }
     
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        try {
-            filmService.delete(id);
-        }
-        catch (MyDeleteException e) {
-            log.error("MVCFilmController#delete(): {}", e.getMessage());
-            return "redirect:/error/error-message?message=" + e.getLocalizedMessage();
-        }
-        return "redirect:/films";
-    }
-    
     @PostMapping("/search")
-    public String searchBooks(@RequestParam(value = "page", defaultValue = "1") int page,
+    public String searchFilms(@RequestParam(value = "page", defaultValue = "1") int page,
                               @RequestParam(value = "size", defaultValue = "5") int pageSize,
                               @ModelAttribute("filmSearchForm") FilmSearchDTO filmSearchDTO,
                               Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "title"));
         model.addAttribute("films", filmService.findFilms(filmSearchDTO, pageRequest));
         return "films/viewAllFilms";
+    }
+    
+    @PostMapping("/search/director")
+    public String searchFilms(@RequestParam(value = "page", defaultValue = "1") int page,
+                              @RequestParam(value = "size", defaultValue = "5") int pageSize,
+                              @ModelAttribute("directorSearchForm") DirectorDTO directorDTO,
+                              Model model) {
+        FilmSearchDTO filmSearchDTO = new FilmSearchDTO();
+        filmSearchDTO.setDirectorsFio(directorDTO.getDirectorsFio());
+        return searchFilms(page, pageSize, filmSearchDTO, model);
     }
     
     @GetMapping("/addDirector/{id}")
@@ -111,5 +123,25 @@ public class MVCFilmController {
             filmService.update(filmDTO);
         }
         return "redirect:/films";
+    }
+    
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) throws MyDeleteException {
+        filmService.delete(id);
+        return "redirect:/films";
+    }
+    
+    @GetMapping("/restore/{id}")
+    public String restore(@PathVariable Long id) {
+        filmService.restore(id);
+        return "redirect:/films";
+    }
+    
+    @ExceptionHandler(MyDeleteException.class)
+    public RedirectView handleError(HttpServletRequest request, Exception exception,
+                                    RedirectAttributes redirectAttributes) {
+        log.error("Запрос: " + request.getRequestURL() + " вызвал ошибку " + exception.getMessage());
+        redirectAttributes.addFlashAttribute("exception", exception.getMessage());
+        return new RedirectView("/films", true);
     }
 }

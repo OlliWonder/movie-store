@@ -4,6 +4,7 @@ import com.sber.java13.filmlibrary.dto.OrderDTO;
 import com.sber.java13.filmlibrary.model.Order;
 import com.sber.java13.filmlibrary.repository.FilmRepository;
 import com.sber.java13.filmlibrary.repository.UserRepository;
+import com.sber.java13.filmlibrary.service.FilmService;
 import com.sber.java13.filmlibrary.utils.DateFormatter;
 import jakarta.annotation.PostConstruct;
 import org.modelmapper.ModelMapper;
@@ -12,25 +13,28 @@ import org.webjars.NotFoundException;
 
 @Component
 public class OrderMapper extends GenericMapper<Order, OrderDTO> {
-    
-    private final ModelMapper modelMapper;
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
+    private final FilmService filmService;
     
-    protected OrderMapper(ModelMapper modelMapper, FilmRepository filmRepository, UserRepository userRepository) {
+    protected OrderMapper(ModelMapper modelMapper, FilmRepository filmRepository, UserRepository userRepository,
+                          FilmService filmService) {
         super(modelMapper, Order.class, OrderDTO.class);
-        this.modelMapper = modelMapper;
         this.filmRepository = filmRepository;
         this.userRepository = userRepository;
+        this.filmService = filmService;
     }
     
     @PostConstruct
     public void setupMapper() {
         modelMapper.createTypeMap(Order.class, OrderDTO.class)
                 .addMappings(m -> m.skip(OrderDTO::setUserId)).setPostConverter(toDtoConverter())
-                .addMappings(m -> m.skip(OrderDTO::setFilmId)).setPostConverter(toDtoConverter());
+                .addMappings(m -> m.skip(OrderDTO::setFilmId)).setPostConverter(toDtoConverter())
+                .addMappings(m -> m.skip(OrderDTO::setFilmDTO)).setPostConverter(toDtoConverter());
+        
         modelMapper.createTypeMap(OrderDTO.class, Order.class)
-                .addMappings(m -> m.skip(Order::setRentDate)).setPostConverter(toEntityConverter());
+                .addMappings(m -> m.skip(Order::setRentDate)).setPostConverter(toEntityConverter())
+                .addMappings(m -> m.skip(Order::setFilm)).setPostConverter(toEntityConverter());
     }
     
     @Override
@@ -46,5 +50,6 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
     protected void mapSpecificFields(Order source, OrderDTO destination) {
         destination.setUserId(source.getUser().getId());
         destination.setFilmId(source.getFilm().getId());
+        destination.setFilmDTO(filmService.getOne(source.getFilm().getId()));
     }
 }

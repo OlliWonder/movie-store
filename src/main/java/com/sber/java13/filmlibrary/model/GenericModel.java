@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,4 +22,13 @@ public class GenericModel implements Serializable {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_generator")
     private Long id;
+    
+    @Column(name = "is_deleted", columnDefinition = "boolean default false")
+    private boolean isDeleted;
+    
+    @Column(name = "deleted_when")
+    private LocalDateTime deletedWhen;
+    
+    @Column(name = "deleted_by")
+    private String deletedBy;
 }

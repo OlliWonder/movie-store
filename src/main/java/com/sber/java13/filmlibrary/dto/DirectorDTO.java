@@ -1,9 +1,6 @@
 package com.sber.java13.filmlibrary.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -11,8 +8,10 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class DirectorDTO extends GenericDTO {
     private String directorsFio;
     private String directorsPosition;
     private Set<Long> filmsIds;
+    private boolean isDeleted;
 }

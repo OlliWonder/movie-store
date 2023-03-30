@@ -19,4 +19,5 @@ public class FilmDTO extends GenericDTO {
     private Genre genre;
     private Set<Long> directorsIds;
     private Set<Long> ordersIds;
+    private boolean isDeleted;
 }

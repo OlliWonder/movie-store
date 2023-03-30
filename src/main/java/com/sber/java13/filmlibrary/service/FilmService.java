@@ -1,5 +1,6 @@
 package com.sber.java13.filmlibrary.service;
 
+import com.sber.java13.filmlibrary.constants.Errors;
 import com.sber.java13.filmlibrary.dto.FilmDTO;
 import com.sber.java13.filmlibrary.dto.FilmSearchDTO;
 import com.sber.java13.filmlibrary.dto.FilmWithDirectorsDTO;
@@ -8,6 +9,7 @@ import com.sber.java13.filmlibrary.mapper.FilmMapper;
 import com.sber.java13.filmlibrary.mapper.FilmWithDirectorsMapper;
 import com.sber.java13.filmlibrary.model.Film;
 import com.sber.java13.filmlibrary.repository.FilmRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import org.webjars.NotFoundException;
 import java.util.List;
 
 @Service
+@Slf4j
 public class FilmService extends GenericService<Film, FilmDTO> {
     private final FilmRepository filmRepository;
     private final FilmWithDirectorsMapper filmWithDirectorsMapper;
@@ -30,6 +33,12 @@ public class FilmService extends GenericService<Film, FilmDTO> {
     
     public Page<FilmWithDirectorsDTO> getAllFilmsWithDirectors(Pageable pageable) {
         Page<Film> filmsPaginated = repository.findAll(pageable);
+        List<FilmWithDirectorsDTO> result = filmWithDirectorsMapper.toDTOs(filmsPaginated.getContent());
+        return new PageImpl<>(result, pageable, filmsPaginated.getTotalElements());
+    }
+    
+    public Page<FilmWithDirectorsDTO> getAllNotDeletedFilmsWithDirectors(Pageable pageable) {
+        Page<Film> filmsPaginated = filmRepository.findAllByIsDeletedFalse(pageable);
         List<FilmWithDirectorsDTO> result = filmWithDirectorsMapper.toDTOs(filmsPaginated.getContent());
         return new PageImpl<>(result, pageable, filmsPaginated.getTotalElements());
     }
@@ -59,15 +68,22 @@ public class FilmService extends GenericService<Film, FilmDTO> {
     
     @Override
     public void delete(Long id) throws MyDeleteException {
-        Film film = repository.findById(id).orElseThrow(
+        Film film = filmRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Фильма с заданным ID=" + id + " не существует"));
-        if (film.getOrders().size() > 0) {
-            throw new MyDeleteException("film can not be deleted");
-            //TODO: разобраться почему не хочет отображать русские буквы!
-//            throw new MyDeleteException("Фильм не может быть удалён, так как у него есть активные аренды");
+        boolean filmCanBeDeleted = filmRepository.checkFilmForDeletion(id);
+        if (filmCanBeDeleted) {
+            markAsDeleted(film);
+            filmRepository.save(film);
         }
         else {
-            repository.deleteById(film.getId());
+            throw new MyDeleteException(Errors.Films.FILM_DELETE_ERROR);
         }
+    }
+    
+    public void restore(Long objectId) {
+        Film film = repository.findById(objectId).orElseThrow(
+                () -> new NotFoundException("Фильма с заданным ID=" + objectId + " не существует"));
+        unMarkAsDeleted(film);
+        repository.save(film);
     }
 }

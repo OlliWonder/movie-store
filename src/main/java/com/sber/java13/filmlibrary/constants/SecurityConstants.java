@@ -27,7 +27,12 @@ public interface SecurityConstants {
     
     List<String> USERS_REST_WHITE_LIST = List.of("/users/auth");
     
-    List<String> DIRECTORS_WHITE_LIST = List.of("/directors");
+    List<String> USERS_PERMISSION_LIST = List.of("/rent/book/*");
+    
+    List<String> DIRECTORS_WHITE_LIST = List.of("/directors",
+            "/directors/search",
+            "/films/search/director",
+            "/directors/{id}");
     
     List<String> DIRECTORS_PERMISSION_LIST = List.of("/directors/add",
             "/directors/update",
