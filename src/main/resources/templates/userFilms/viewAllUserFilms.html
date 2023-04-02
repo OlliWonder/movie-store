@@ -18,7 +18,7 @@
                 <th scope="col">Дата аренды фильма</th>
                 <th scope="col">Период аренды</th>
                 <th scope="col">Плановая дата прекращения аренды</th>
-                <th scope="col">Куплена</th>
+                <th scope="col">Куплен</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -43,6 +43,7 @@
 
                 <td>
                     <a
+                            sec:authorize="isAuthenticated() && (hasRole('USER'))"
                             th:if="!${rent.getIsPurchased()}"
                             th:href="'/rent/buy-film/' + ${rent.getId()}"
                             class="btn btn-primary"

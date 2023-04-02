@@ -9,7 +9,7 @@ public interface SecurityConstants {
             "/",
             // -- Swagger UI v3 (OpenAPI)
             "/swagger-ui/**",
-            "/webjars/bootstrap/5.2.3/**",
+            "/webjars/bootstrap/5.0.2/**",
             "/v3/api-docs/**");
     
     List<String> FILMS_WHITE_LIST = List.of("/films",

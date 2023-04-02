@@ -1,6 +1,7 @@
 package com.sber.java13.filmlibrary.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @SequenceGenerator(name = "default_generator", sequenceName = "user_seq", allocationSize = 1)
 public class User extends GenericModel {
     

@@ -21,6 +21,7 @@ public abstract class GenericService <T extends GenericModel, N extends GenericD
     protected final GenericRepository<T> repository;
     protected final GenericMapper<T, N> mapper;
     
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     protected GenericService(GenericRepository<T> repository, GenericMapper<T, N> mapper) {
         this.repository = repository;
         this.mapper = mapper;
@@ -34,6 +35,16 @@ public abstract class GenericService <T extends GenericModel, N extends GenericD
         Page<T> objects = repository.findAll(pageable);
         List<N> result = mapper.toDTOs(objects.getContent());
         return new PageImpl<>(result, pageable, objects.getTotalElements());
+    }
+    
+    public Page<N> listAllNotDeleted(Pageable pageable) {
+        Page<T> preResult = repository.findAllByIsDeletedFalse(pageable);
+        List<N> result = mapper.toDTOs(preResult.getContent());
+        return new PageImpl<>(result, pageable, preResult.getTotalElements());
+    }
+    
+    public List<N> listAllNotDeleted() {
+        return mapper.toDTOs(repository.findAllByIsDeletedFalse());
     }
     
     public N getOne(Long id) {

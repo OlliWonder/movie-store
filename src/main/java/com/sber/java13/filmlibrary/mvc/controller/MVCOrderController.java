@@ -27,12 +27,12 @@ public class MVCOrderController {
     }
     
     @GetMapping("/film/{filmId}")
-    public String rentBook(@PathVariable Long filmId, Model model) {
+    public String rentFilm(@PathVariable Long filmId, Model model) {
         model.addAttribute("film", filmService.getOne(filmId));
         return "userFilms/rentFilm";
     }
     
-    @GetMapping("/film")
+    @PostMapping("/film")
     public String rentFilm(@ModelAttribute("rentFilmForm") OrderDTO orderDTO) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
@@ -46,7 +46,7 @@ public class MVCOrderController {
                             @RequestParam(value = "size", defaultValue = "5") int pageSize,
                             @PathVariable Long id, Model model) {
         PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
-        Page<OrderDTO> orderDTOPage = orderService.listAll(pageRequest);
+        Page<OrderDTO> orderDTOPage = orderService.listUserRentFilms(id, pageRequest);
         model.addAttribute("rentFilms", orderDTOPage);
         return "userFilms/viewAllUserFilms";
     }

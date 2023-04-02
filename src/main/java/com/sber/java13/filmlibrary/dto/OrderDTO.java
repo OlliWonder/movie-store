@@ -2,6 +2,8 @@ package com.sber.java13.filmlibrary.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -10,7 +12,7 @@ import lombok.*;
 public class OrderDTO extends GenericDTO {
     private UserDTO user;
     private FilmDTO filmDTO;
-    private String rentDate;
+    private LocalDate rentDate;
     private Integer rentPeriod;
     private Boolean isPurchased;
     private Long filmId;

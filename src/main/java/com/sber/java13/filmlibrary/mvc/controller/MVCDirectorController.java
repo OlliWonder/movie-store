@@ -46,7 +46,7 @@ public class MVCDirectorController {
             result = directorService.listAll(pageRequest);
         }
         else {
-            result = directorService.listAllNotDeletedDirectors(pageRequest);
+            result = directorService.listAllNotDeleted(pageRequest);
         }
         model.addAttribute("directors", result);
         model.addAttribute("exception", exception);

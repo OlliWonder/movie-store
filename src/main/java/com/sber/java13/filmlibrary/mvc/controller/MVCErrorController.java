@@ -1,5 +1,6 @@
 package com.sber.java13.filmlibrary.mvc.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import static jakarta.servlet.RequestDispatcher.ERROR_REQUEST_URI;
 import static jakarta.servlet.RequestDispatcher.ERROR_STATUS_CODE;
 
 @Controller
+@Hidden
 @Slf4j
 public class MVCErrorController implements ErrorController {
     

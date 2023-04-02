@@ -16,7 +16,7 @@ public interface FilmRepository extends GenericRepository<Film> {
                     from films f
                     left join films_directors fd on f.id = fd.film_id
                     join directors d on d.id = fd.director_id
-                    where f.title ilike '%' || coalesce(:title, '%') || '%'
+                    where f.title ilike '%' || nullif(:title, f.title) || '%'
                     and cast(f.genre as char) like coalesce(:genre,'%')
                     and d.directors_fio ilike '%' || :directors_fio || '%'
                     and f.is_deleted = false

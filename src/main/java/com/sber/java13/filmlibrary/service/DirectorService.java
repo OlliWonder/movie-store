@@ -22,10 +22,12 @@ import java.util.Set;
 @Slf4j
 public class DirectorService extends GenericService<Director, DirectorDTO> {
     private final DirectorRepository directorRepository;
+    private final FilmService filmService;
     
-    protected DirectorService(DirectorRepository directorRepository, DirectorMapper directorMapper) {
+    protected DirectorService(DirectorRepository directorRepository, DirectorMapper directorMapper, FilmService filmService) {
         super(directorRepository, directorMapper);
         this.directorRepository = directorRepository;
+        this.filmService = filmService;
     }
     
     public Page<DirectorDTO> listAllNotDeletedDirectors(Pageable pageable) {
@@ -42,6 +44,7 @@ public class DirectorService extends GenericService<Director, DirectorDTO> {
     
     public void addFilm(IdFilmDirectorDTO idFilmDirectorDTO) {
         DirectorDTO directorDTO = getOne(idFilmDirectorDTO.getDirectorId());
+        filmService.getOne(idFilmDirectorDTO.getDirectorId());
         directorDTO.getFilmsIds().add(idFilmDirectorDTO.getFilmId());
         update(directorDTO);
     }
@@ -54,7 +57,10 @@ public class DirectorService extends GenericService<Director, DirectorDTO> {
         if (directorCanBeDeleted) {
             markAsDeleted(director);
             Set<Film> films = director.getFilms();
-            films.forEach(this::markAsDeleted);
+            if (films != null && films.size() > 0) {
+                films.forEach(this::markAsDeleted);
+            }
+            directorRepository.save(director);
         }
         else {
             throw new MyDeleteException(Errors.Directors.DIRECTOR_DELETE_ERROR);
@@ -66,7 +72,9 @@ public class DirectorService extends GenericService<Director, DirectorDTO> {
                 () -> new NotFoundException("Режиссёра с заданным id=" + objectId + " не существует"));
         unMarkAsDeleted(director);
         Set<Film> films = director.getFilms();
-        films.forEach(this::unMarkAsDeleted);
+        if (films != null && films.size() > 0) {
+            films.forEach(this::unMarkAsDeleted);
+        }
         directorRepository.save(director);
     }
 }

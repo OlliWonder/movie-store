@@ -9,13 +9,11 @@ import com.sber.java13.filmlibrary.service.OrderService;
 import com.sber.java13.filmlibrary.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,6 +21,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/users")
 @Tag(name = "Пользователи", description = "Контроллер для работы с пользователями")
+@Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController extends GenericController<User, UserDTO> {
     
     private final UserService userService;

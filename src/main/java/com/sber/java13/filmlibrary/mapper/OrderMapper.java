@@ -33,7 +33,6 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
                 .addMappings(m -> m.skip(OrderDTO::setFilmDTO)).setPostConverter(toDtoConverter());
         
         modelMapper.createTypeMap(OrderDTO.class, Order.class)
-                .addMappings(m -> m.skip(Order::setRentDate)).setPostConverter(toEntityConverter())
                 .addMappings(m -> m.skip(Order::setFilm)).setPostConverter(toEntityConverter());
     }
     
@@ -43,7 +42,6 @@ public class OrderMapper extends GenericMapper<Order, OrderDTO> {
                 .orElseThrow(() -> new NotFoundException("Фильм не найден")));
         destination.setUser(userRepository.findById(source.getUserId())
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден")));
-        destination.setRentDate(DateFormatter.formatStringToDate(source.getRentDate()));
     }
     
     @Override

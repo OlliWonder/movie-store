@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static com.sber.java13.filmlibrary.constants.UserRoleConstants.ADMIN;
 
@@ -72,6 +73,17 @@ public class MVCUserController {
             userService.sendChangePasswordEmail(userDTO);
             return "index";
         }
+    }
+    
+    @GetMapping("/change-password/user")
+    public String changePassword(Model model) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDTO userDTO = userService.getOne(Long.valueOf(customUserDetails.getUserId()));
+        UUID uuid = UUID.randomUUID();
+        userDTO.setChangePasswordToken(uuid.toString());
+        userService.update(userDTO);
+        model.addAttribute("uuid", uuid);
+        return "users/changePassword";
     }
     
     @GetMapping("/change-password")
