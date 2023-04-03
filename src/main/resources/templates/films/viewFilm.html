@@ -58,9 +58,9 @@
         <hr class="hr"/>
         <div class="mt-2">
             <a sec:authorize="isAuthenticated() && hasRole('USER')" class="btn btn-primary"
-               th:href="'/rentFilm/' + ${film.id}">Арендовать фильм</a>
+               th:href="'/rent/film/' + ${film.id}">Арендовать фильм</a>
             <a sec:authorize="isAuthenticated() && hasRole('USER')" class="btn btn-primary"
-               th:href="'/buyFilm/' + ${film.id}">Купить фильм</a>
+               th:href="'/buy/film/' + ${film.id}">Купить фильм</a>
             <a href="/films" class="btn btn-secondary" role="button">Назад</a>
         </div>
     </div>
