@@ -101,6 +101,7 @@ public class MVCFilmController {
                               Model model) {
         FilmSearchDTO filmSearchDTO = new FilmSearchDTO();
         filmSearchDTO.setDirectorsFio(directorDTO.getDirectorsFio());
+        filmSearchDTO.setFilmTitle("");
         return searchFilms(page, pageSize, filmSearchDTO, model);
     }
     
