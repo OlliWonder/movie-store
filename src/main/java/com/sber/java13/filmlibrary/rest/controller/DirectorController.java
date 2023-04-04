@@ -6,18 +6,18 @@ import com.sber.java13.filmlibrary.model.Director;
 import com.sber.java13.filmlibrary.service.DirectorService;
 import com.sber.java13.filmlibrary.service.FilmService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/directors")
 @Tag(name = "Режиссёры", description = "Контроллер для работы с режиссёрами фильмов")
+@SecurityRequirement(name = "Bearer Authentication")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DirectorController extends GenericController<Director, DirectorDTO> {
     
     private final DirectorService directorService;
