@@ -12,9 +12,12 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@SequenceGenerator(name = "default_generator", sequenceName = "role_seq", allocationSize = 1)
-public class Role extends GenericModel {
-
+public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Long id;
+    
     @Column(name = "title", nullable = false)
     private String roleTitle;
     

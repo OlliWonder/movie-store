@@ -1,9 +1,6 @@
 package com.sber.java13.filmlibrary.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -12,6 +9,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class UserDTO extends GenericDTO {
     private String login;
     private String password;
@@ -25,4 +23,6 @@ public class UserDTO extends GenericDTO {
     private LocalDate createdWhen;
     private RoleDTO role;
     private Set<Long> ordersIds;
+    private String changePasswordToken;
+    private boolean isDeleted;
 }
