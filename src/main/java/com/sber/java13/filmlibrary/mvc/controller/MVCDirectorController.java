@@ -87,11 +87,13 @@ public class MVCDirectorController {
         model.addAttribute("films", filmService.listAll());
         model.addAttribute("directorId", directorId);
         model.addAttribute("director", directorService.getOne(directorId).getDirectorsFio());
+        log.info(2 + directorId.toString());
         return "directors/addDirectorFilm";
     }
     
     @PostMapping("/add-film")
     public String addFilm(@ModelAttribute("directorFilmForm") IdFilmDirectorDTO idFilmDirectorDTO) {
+        log.info(1 + idFilmDirectorDTO.toString());
         directorService.addFilm(idFilmDirectorDTO);
         return "redirect:/directors";
     }
