@@ -60,7 +60,7 @@ public abstract class GenericMapper<E extends GenericModel, D extends GenericDTO
         };
     }
     
-    abstract void mapSpecificFields(D source, E destination);
+    protected abstract void mapSpecificFields(D source, E destination);
     
-    abstract void mapSpecificFields(E source, D destination);
+    protected abstract void mapSpecificFields(E source, D destination);
 }

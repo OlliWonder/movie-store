@@ -15,13 +15,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class DirectorMapper extends GenericMapper<Director, DirectorDTO> {
-    
-    private final ModelMapper modelMapper;
     private final FilmRepository filmRepository;
     
     protected DirectorMapper(ModelMapper modelMapper, FilmRepository filmRepository) {
         super(modelMapper, Director.class, DirectorDTO.class);
-        this.modelMapper = modelMapper;
         this.filmRepository = filmRepository;
     }
     

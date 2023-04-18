@@ -1,0 +1,35 @@
+.nav-link {
+    color: whitesmoke !important;
+}
+
+.btn-primary {
+    color: white;
+    background-color: #b55de6;
+    border-color: #b55de6;
+}
+
+.btn-primary:hover {
+    color: white;
+    background-color: #9843c1;
+    border-color: #9843c1;
+}
+
+.btn-secondary {
+    color: white;
+    background-color: #e6a25d;
+    border-color: #e6a25d;
+}
+
+.btn-secondary:hover {
+    color: white;
+    background-color: #be7c3d;
+    border-color: #be7c3d;
+}
+
+.text-link {
+    text-decoration: none;
+}
+
+.text-link:hover {
+    color: #001445;
+}
