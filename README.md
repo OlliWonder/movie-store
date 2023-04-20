@@ -1,4 +1,4 @@
-## movie-store
+## Movie-store
 **Movie-store** - Service for buying and renting movies
 
 ## Purpose of the application
